@@ -1,7 +1,5 @@
 /* eslint-disable react/prop-types */
 const ContactListItem = ({ contact, onDeleteContact }) => {
-  console.log(contact);
-
   return (
     <div className="flex items-center gap-3">
       <p>
