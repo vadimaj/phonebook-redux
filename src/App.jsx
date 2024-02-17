@@ -1,12 +1,20 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ContactFilter from './Components/ContactFilter';
 import ContactForm from './Components/ContactForm';
 import ContactList from './Components/ContactList';
 
 function App() {
-  const [contacts, setContacts] = useState([]);
-
+  const [contacts, setContacts] = useState(function () {
+    return JSON.parse(localStorage.getItem('contacts')) ?? [];
+  });
   const [filter, setFilter] = useState('');
+
+  useEffect(
+    function () {
+      window.localStorage.setItem('contacts', JSON.stringify(contacts));
+    },
+    [contacts]
+  );
 
   const handleAddContact = (newContact) => {
     const normalizedNewName = newContact.name.toLocaleLowerCase();
