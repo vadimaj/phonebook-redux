@@ -1,6 +1,16 @@
 /* eslint-disable react/prop-types */
+import { useDispatch } from 'react-redux';
+import { filterChange } from './ContactSlice';
+import { useSelector } from 'react-redux';
 
-const ContactFilter = ({ value, onChange }) => {
+const ContactFilter = () => {
+  const dispatch = useDispatch();
+  const value = useSelector((store) => store.filter);
+  const handleFilterChange = (e) => {
+    dispatch(filterChange(e.target.value));
+    console.log(value);
+  };
+
   return (
     <section className="text-base  font-normal border-2 border-slate-500 rounded-md p-5 w-1/2 mx-auto mb-7">
       <div className="mb-4  text-left flex flex-col  gap-1">
@@ -10,7 +20,7 @@ const ContactFilter = ({ value, onChange }) => {
           type="text"
           name="name"
           value={value}
-          onChange={onChange}
+          onChange={handleFilterChange}
           required
         />
       </div>

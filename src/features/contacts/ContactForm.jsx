@@ -1,10 +1,15 @@
 /* eslint-disable react/prop-types */
 import { nanoid } from 'nanoid';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { addContact } from './ContactSlice';
+import { useSelector } from 'react-redux';
 
-const ContactForm = ({ onAddContact }) => {
+const ContactForm = () => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
+  const dispatch = useDispatch();
+  const contacts = useSelector((state) => state.contacts);
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -19,9 +24,15 @@ const ContactForm = ({ onAddContact }) => {
       number,
       id: nanoid(),
     };
-
-    onAddContact(newContact);
-
+    const normalizedNewName = newContact.name.toLocaleLowerCase();
+    if (
+      contacts.find(
+        (contact) => contact.name.toLowerCase() === normalizedNewName
+      )
+    ) {
+      return alert(`Contact ${newContact.name} already exist!`);
+    }
+    dispatch(addContact(newContact));
     setName('');
     setNumber('');
   };

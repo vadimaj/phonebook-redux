@@ -1,5 +1,15 @@
 /* eslint-disable react/prop-types */
-const ContactListItem = ({ contact, onDeleteContact }) => {
+import { useDispatch } from 'react-redux';
+import { deleteContact } from './ContactSlice';
+
+const ContactListItem = ({ contact }) => {
+  const dispatch = useDispatch();
+
+  const handleDeleteContact = (id) => {
+    if (!id) return;
+    dispatch(deleteContact(id));
+  };
+
   return (
     <div className="flex items-center gap-3">
       <p>
@@ -7,7 +17,7 @@ const ContactListItem = ({ contact, onDeleteContact }) => {
       </p>
       <button
         type="button"
-        onClick={() => onDeleteContact(contact.id)}
+        onClick={() => handleDeleteContact(contact.id)}
         className="text-white bg-red-500 rounded-md text-sm w-16 font-semibold"
       >
         Delete &times;
